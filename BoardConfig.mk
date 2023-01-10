@@ -46,7 +46,6 @@ TARGET_KERNEL_EXT_MODULES += \
     motorola/drivers/moto_f_usbnet \
     motorola/drivers/misc/mmi_sys_temp \
     motorola/drivers/power/smart_pen_charger \
-    motorola/drivers/watchdogtest \
     motorola/drivers/regulator/slg5bm43670 \
     motorola/drivers/sensors \
     motorola/drivers/misc/hall \
