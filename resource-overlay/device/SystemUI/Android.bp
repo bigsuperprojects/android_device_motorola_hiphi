@@ -1,4 +1,4 @@
 runtime_resource_overlay {
-    name: "FrameworksResHiphi",
+    name: "SystemUIResDevice",
     vendor: true
 }
