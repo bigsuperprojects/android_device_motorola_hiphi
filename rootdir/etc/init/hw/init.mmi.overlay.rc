@@ -15,12 +15,8 @@ on fs
    insmod /vendor/lib/modules/sx937x_sar.ko
    insmod /vendor/lib/modules/qti_glink_charger.ko
    insmod /vendor/lib/modules/qpnp_adaptive_charge.ko
-   insmod /vendor/lib/modules/moto_mmap_fault.ko
    #zram wb
    mount_all /vendor/etc/fstab.qcom.zram --early
-
-on late-init
-    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules moto_mm moto_swap
 
 on early-boot
     # factory i2c

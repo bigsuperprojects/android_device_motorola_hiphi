@@ -294,7 +294,4 @@ qti_glink_charger.ko
 mmi_sys_temp.ko
 smart_pen_charger.ko
 qpnp_adaptive_charge.ko
-moto_mmap_fault.ko
-moto_mm.ko
-moto_swap.ko
 gpio_keys.ko

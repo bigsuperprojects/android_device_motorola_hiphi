@@ -55,8 +55,6 @@ TARGET_KERNEL_EXT_MODULES += \
     motorola/drivers/input/touchscreen/stmicro_mmi \
     motorola/drivers/input/misc/fpc_fps_mmi \
     motorola/drivers/input/misc/goodix_fod_mmi \
-    motorola/drivers/moto_mm \
-    motorola/drivers/moto_swap \
     motorola/drivers/nfc/st21nfc
 
 # Partitions
