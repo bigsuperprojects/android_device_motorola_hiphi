@@ -1,23 +1,21 @@
 import /vendor/etc/init/hw/init.vendor.st21nfc.rc
 
 on early-init
-   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor walt
-   write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor walt
-   write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor walt
    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -r -d /vendor/lib/modules zram
 
 on fs
-   insmod /vendor/lib/modules/rbs_fod_mmi.ko
    insmod /vendor/lib/modules/msm_drm.ko
    insmod /vendor/lib/modules/mmi_annotate.ko
    insmod /vendor/lib/modules/mmi_info.ko
    insmod /vendor/lib/modules/mmi_relay.ko
    insmod /vendor/lib/modules/sensors_class.ko
    insmod /vendor/lib/modules/touchscreen_mmi.ko
+   insmod /vendor/lib/modules/stmicro_mmi.ko
    insmod /vendor/lib/modules/goodix_brl_mmi.ko
    insmod /vendor/lib/modules/sx937x_sar.ko
    insmod /vendor/lib/modules/qti_glink_charger.ko
    insmod /vendor/lib/modules/qpnp_adaptive_charge.ko
+   insmod /vendor/lib/modules/moto_mmap_fault.ko
    #zram wb
    mount_all /vendor/etc/fstab.qcom.zram --early
 
@@ -36,39 +34,10 @@ on early-boot
     chown system system /dev/i2c-2
     chown system system /dev/i2c-3
     chown system system /dev/i2c-4
-    # for ufs HID
-    chown system system /sys/devices/platform/soc/1d84000.ufshc/ufshid/trigger
-
-# Create directory for wireless charge test in factory
-    mkdir /data/vendor/wlc 0775 vendor_tcmd system
-
-# Change force_charging_enable access mode and permission for tcmd
-    chmod 0664 /sys/class/power_supply/battery/device/force_charging_enable
-    chown vendor_tcmd system /sys/class/power_supply/battery/device/force_charging_enable
 
 on post-fs-data
     # Param updater data for various modules
     mkdir /data/vendor/param 0775 system system
-    # prepare folders for Egis FoD fingerprint sensor
-    mkdir /data/vendor/egis 0770 system system
-    mkdir /mnt/vendor/persist/egis 0770 system system
-    mkdir /data/vendor/tzstorage/egis 0770 system system
-    mkdir /data/vendor/egis/cqa  0770 system system
-
-    # Add for fod fps calibration
-    chown system system /sys/class/backlight/panel0-backlight/brightness
-    chown system system /sys/class/drm/card0-DSI-1/panelName
-    chown system system /sys/class/drm/card0-DSI-1/panelId
-    chown system system /d/dri/0/debug/motUtil
-    chmod 0666 /d/dri/0/debug/motUtil;
-    chmod 0666 /sys/class/backlight/panel0-backlight/brightness
-    chmod 0666 /sys/class/drm/card0-DSI-1/panelName
-    chmod 0666 /sys/class/drm/card0-DSI-1/panelId
-
-on early-boot
-    # Add for egis fingerprint
-    chown system system /dev/esfp0
-    chmod 0664 /dev/esfp0
 
 on boot
     # allow TCMD to access cci for OIS test
@@ -80,6 +49,7 @@ on boot
     mkdir /mnt/vendor/persist/touch
     chown vendor_tcmd system /mnt/vendor/persist/touch
     chmod 0775 /mnt/vendor/persist/touch
+
     # Touch game mode control
     chown system system /sys/class/touchscreen/primary/rotate
     chmod 0660 /sys/class/touchscreen/primary/rotate
@@ -89,21 +59,30 @@ on boot
     chmod 0660 /sys/class/touchscreen/primary/edge
     chown system system /sys/class/touchscreen/primary/sensitivity
     chmod 0660 /sys/class/touchscreen/primary/sensitivity
+
+    # For wake display
     chown system system /sys/class/touchscreen/primary/gesture
     chmod 0660 /sys/class/touchscreen/primary/gesture
-
-    write /dev/cpuset/boost-app/cpus 4-6
-    setprop debug.sf.boost_sf_on_touch true
 
    # Set adaptive charging perms for HAL
     chown system system /sys/module/qpnp_adaptive_charge/parameters/upper_limit
     chown system system /sys/module/qpnp_adaptive_charge/parameters/lower_limit
 
+    # Set wls perms for HAL
+    chown system system /sys/class/power_supply/wireless/device/pen_control
     chown system system /sys/class/power_supply/wireless/device/tx_mode
     chown system system /sys/class/power_supply/wireless/device/wls_input_current_limit
-    chown vendor_tcmd system /sys/class/power_supply/wireless/device/tx_mode_vout
+    chown system system /sys/class/power_supply/wireless/device/folio_mode
+    chown system system /sys/class/power_supply/wireless/device/pen_soc
     chmod 0660 /sys/class/power_supply/wireless/device/tx_mode
     chmod 0660 /sys/class/power_supply/wireless/device/wls_input_current_limit
+    chmod 0660 /sys/class/power_supply/wireless/device/folio_mode
+    chmod 0660 /sys/class/power_supply/wireless/device/pen_soc
+
+    # Set touch related perms for HAL
+    chown system system /sys/class/touchscreen/primary/stylus_mode
+    chmod 0660 /sys/class/touchscreen/primary/stylus_mode
+    chmod 0444 /dev/goodix_penraw
 
     #change vibrator test node file access permission
     chmod 0660 /sys/class/qcom-haptics/enable_play
@@ -120,9 +99,11 @@ on boot
     chmod 0660 /sys/class/power_supply/wireless/device/wlc_light_ctl
     chmod 0660 /sys/class/power_supply/wireless/device/wlc_fan_speed
 
-   # vibrator hal need to access this sysfs node for AF noise issue
-   chown cameraserver cameraserver /sys/devices/platform/soc/soc:mot,cam-actuator/onekey_actuator
-   chmod 0660 /sys/devices/platform/soc/soc:mot,cam-actuator/onekey_actuator
+service vendor.hal-fps-sh /vendor/bin/init.oem.fingerprint2.sh
+    class late_start
+    user root
+    group system
+    oneshot
 
 service capsense_reset /system/vendor/bin/capsense_reset
    class core
@@ -161,13 +142,6 @@ on property:dev.bootcomplete=1
 on property:vendor.post_boot.parsed=1
     write /sys/devices/system/cpu/cpu4/core_ctl/enable 0
     write /sys/devices/system/cpu/cpu7/core_ctl/enable 0
-
-on property:vendor.usb.headset_reset=2
-    write /sys/bus/platform/devices/${ro.boot.usb.dwc3_msm:-a600000.ssusb}/mode none
-
-on property:vendor.usb.headset_reset=0
-    wait /sys/bus/platform/devices/${ro.boot.usb.dwc3_msm:-a600000.ssusb}/headset_reset_delay 2
-    write /sys/bus/platform/devices/${ro.boot.usb.dwc3_msm:-a600000.ssusb}/mode host
 
 on property:ro.boot.carrier=amxbr
     setprop ro.vendor.radio.imei.sv 31
