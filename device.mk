@@ -1,17 +1,6 @@
 #
-# Copyright (C) 2022 The LineageOS Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
 #
 
 # Boot animation
@@ -34,9 +23,9 @@ $(call inherit-product, device/motorola/sm8475-common/sm8475.mk)
 
 # Overlay
 PRODUCT_PACKAGES += \
-    FrameworksResEqs \
-    LineageSystemUIEqs \
-    SystemUIResEqs
+    FrameworksResHiphi \
+    LineageSystemUIHiphi \
+    SystemUIResHiphi
 
 # Audio
 PRODUCT_COPY_FILES += \
@@ -91,4 +80,4 @@ $(call soong_config_set,qti_vibrator,effect_lib,libqtivibratoreffect.moto_sm8475
 $(call soong_config_set,qti_vibrator,use_effect_stream,true)
 
 # Inherit from vendor blobs
-$(call inherit-product, vendor/motorola/eqs/eqs-vendor.mk)
+$(call inherit-product, vendor/motorola/hiphi/hiphi-vendor.mk)
