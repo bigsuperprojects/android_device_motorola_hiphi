@@ -27,11 +27,11 @@ on property:ro.vendor.hw.nfc=st
 	start vendor.st_nfc_hal_service
 
 on property:ro.vendor.hw.nfc=ese_st
-	setprop persist.vendor.nfc.config_file_name libnfc-hal-st54j.conf
+	setprop persist.vendor.nfc.config_file_name libnfc-hal-st.conf
 	start vendor.st_nfc_hal_service
 
 on property:ro.vendor.hw.nfc=esim_st
-	setprop persist.vendor.nfc.config_file_name libnfc-hal-st54uicc.conf
+	setprop persist.vendor.nfc.config_file_name libnfc-hal-st.conf
 	start vendor.st_nfc_hal_service
 
 service vendor.st_nfc_hal_service /vendor/bin/hw/android.hardware.nfc-service.st
