@@ -198,3 +198,9 @@ on property:ro.boot.carrier=tefbr
 
 on property:ro.boot.carrier=timbr
     setprop ro.vendor.radio.imei.sv 31
+
+service vendor.hal-fps-sh /vendor/bin/init.oem.fingerprint2.sh
+    class late_start
+    user root
+    group system
+    oneshot
