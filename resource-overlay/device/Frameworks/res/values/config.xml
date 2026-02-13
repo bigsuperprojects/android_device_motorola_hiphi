@@ -51,7 +51,7 @@
          array. The brightness values must be non-negative and non-decreasing. This must be
          overridden in platform specific overlays -->
     <array name="config_autoBrightnessDisplayValuesNits">
-        <item>2</item>
+        <item>5</item>
         <item>7</item>
         <item>10</item>
         <item>12</item>
@@ -70,16 +70,16 @@
          This array should be equal in size to config_screenBrightnessBacklight. -->
     <array name="config_screenBrightnessBacklight">
         <item>0</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>12</item>
-        <item>48</item>
-        <item>57</item>
-        <item>76</item>
-        <item>98</item>
-        <item>129</item>
+        <item>28</item>
+        <item>40</item>
+        <item>50</item>
+        <item>56</item>
+        <item>89</item>
+        <item>173</item>
+        <item>183</item>
+        <item>199</item>
+        <item>211</item>
+        <item>227</item>
         <item>255</item>
     </array>
 
@@ -137,8 +137,8 @@
     <string translatable="false" name="config_mainBuiltInDisplayCutout">
         M -35,0
         L 35,0
-        L 35,105
-        L -35,105
+        L 35,90
+        L -35,90
         Z
     </string>
 
@@ -196,11 +196,17 @@
     -->
     <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
 
-    <!-- The properties of a UDFPS sensor in pixels, in the order listed below: -->
-    <array name="config_udfps_sensor_props" translatable="false" >
-        <item>540</item> <!-- sensorLocationX -->
-        <item>2152</item> <!-- sensorLocationY -->
-        <item>91</item> <!-- sensorRadius -->
+    <!-- An array of arrays of side fingerprint sensor properties relative to each display.
+         Note: this value is temporary and is expected to be queried directly
+         from the HAL in the future. -->
+    <array name="config_sfps_sensor_props" translatable="false">
+        <item>@array/config_sfps_sensor_props_0</item>
+    </array>
+
+    <array name="config_sfps_sensor_props_0" translatable="false">
+        <item>0</item> <!--item>sensorLocationX</item-->
+        <item>690</item> <!--item>sensorLocationY</item-->
+        <item>0</item> <!--item>sensorRadius</item-->
     </array>
 
     <!-- Screen brightness used to dim the screen when the user activity
@@ -251,12 +257,12 @@
          the framework from using higher refresh rates, even if display modes with higher refresh
          rates are available from hardware composer. Only has an effect if the value is
          non-zero. -->
-    <integer name="config_defaultPeakRefreshRate">144</integer>
+    <integer name="config_defaultPeakRefreshRate">60</integer>
 
     <!-- Not allow to switch to higher refresh rate when (display, ambient) brightness falls into
          the region defined by the two arrays -->
     <array name="config_brightnessThresholdsOfPeakRefreshRate">
-        <item>50</item>
+        <item>177</item>
     </array>
     <array name="config_ambientThresholdsOfPeakRefreshRate">
         <item>-1</item>
@@ -280,9 +286,6 @@
 
     <!-- Type of the double tap sensor. Empty if double tap is not supported. -->
     <string name="config_dozeDoubleTapSensorType" translatable="false">org.lineageos.sensor.double_tap</string>
-
-    <!-- Type of the udfps long press sensor. Empty if long press is not supported. -->
-    <string name="config_dozeUdfpsLongPressSensorType" translatable="false">org.lineageos.sensor.udfps</string>
 
     <!-- Enables or disables haptic effect when the text insertion/selection handle is moved
          manually by the user. Off by default, since the expected haptic feedback may not be
