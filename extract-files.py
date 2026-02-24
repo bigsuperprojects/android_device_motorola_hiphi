@@ -5,10 +5,7 @@
 #
 
 from extract_utils.extract import extract_fns_user_type
-from extract_utils.extract_star import (
-    extract_star_firmware,
-    star_firmware_regex,
-)
+
 from extract_utils.fixups_blob import (
     blob_fixup,
     blob_fixups_user_type,
@@ -33,10 +30,6 @@ blob_fixups: blob_fixups_user_type = {
     ),
 }
 
-extract_fns: extract_fns_user_type = {
-    star_firmware_regex: extract_star_firmware,
-}
-
 module = ExtractUtilsModule(
     'hiphi',
     'motorola',
@@ -44,8 +37,6 @@ module = ExtractUtilsModule(
     lib_fixups=lib_fixups,
     namespace_imports=namespace_imports,
     add_generated_carriersettings=True,
-    add_firmware_proprietary_file=True,
-    extract_fns=extract_fns,
 )
 
 if __name__ == '__main__':
