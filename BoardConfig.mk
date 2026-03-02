@@ -32,6 +32,7 @@ BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVIC
 BOOT_KERNEL_MODULES := $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD)
 
 TARGET_KERNEL_EXT_MODULES += \
+    qcom/opensource/wlan/qcacld-3.0/.qca6750 \
     motorola/drivers/mmi_annotate \
     motorola/drivers/mmi_info \
     motorola/drivers/power/bm_adsp_ulog \
