@@ -57,7 +57,8 @@ on property:init.svc.fastbootd=running
     insmod /vendor/lib/modules/spf_core_dlkm.ko
     insmod /vendor/lib/modules/adsp_loader_dlkm.ko
     setprop twrp.modules.loaded true
-
+    start vendor.mot.touch-hal-1-1
+    
 on post-fs && property:init.svc.fastbootd=stopped
     # Trigger loading kernel modules in normal mode
     setprop twrp.modules.loaded true
