@@ -8,19 +8,6 @@ DEVICE_PATH := device/motorola/hiphi
 # Inherit from motorola sm8475-common
 include device/motorola/sm8475-common/BoardConfigCommon.mk
 
-# do NOT include recovery in the update.zip, so users can retain their chosen custom recovery
-	AB_OTA_PARTITIONS += \
-		boot \
-		dtbo \
-		product \
-		system \
-		system_ext \
-		vbmeta \
-		vbmeta_system \
-		vendor \
-		vendor_dlkm \
-		vendor_boot
-
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := hiphi
 
