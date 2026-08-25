@@ -81,7 +81,8 @@ function find_vendor_index() {
 }
 
 function start_hal_service(){
-    # param1: the vendor index (0 for fpc, 1 for goodix)
+    # param1: the vendor index
+    # return: 0 means success, will setprop $prop_persist_fps
     setprop $prop_fps_status $FPS_STATUS_NONE
     setprop $prop_fps_ident $FPS_STATUS_NONE
 
@@ -117,6 +118,12 @@ function start_hal_service(){
     return 255
 }
 
+# set last fingerprint sensor
+fps_vendor=$(cat $persist_fps_id)
+if [ -n "$fps_vendor" ] && [ "$fps_vendor" != $FPS_STATUS_NONE ]; then
+    echo $fps_vendor > $persist_fps_id2
+fi
+
 # get the identified fingerprint sensor
 fps_vendor2=$(cat $persist_fps_id2)
 if [ -z $fps_vendor2 ]; then
@@ -124,37 +131,27 @@ if [ -z $fps_vendor2 ]; then
 fi
 log "FPS vendor (last): $fps_vendor2"
 
-# DYNAMIC HARDWARE-BASED DETECTION METHOD (REPLACES PERSIST FILE CHECK)
-log "Checking physical kernel platform device driver bindings dynamically..."
+fps_vendor=$(cat $persist_fps_id)
+if [ -z $fps_vendor ]; then
+    fps_vendor=$FPS_VENDOR_NONE
+fi
+log "FPS vendor (current): $fps_vendor"
 
-# Temporarily insert the FPC module to evaluate if the hardware tracks
-insmod /vendor/lib/modules/fpc1020_mmi.ko
-sleep 0.5
-
-if [ -d /sys/devices/platform/soc/soc:fpc_fpc1020/driver ]; then
-    log "Device tree specifies FPC side-button sensor. Testing FPC first."
-    rmmod fpc1020_mmi.ko
-    sleep 0.2
-    
-    start_hal_service 0 # 0 corresponds to 'fpc' index in vendor_list
-    
-    # CRITICAL INJECTION: Force close the execution loop so it never drops to Goodix
-    log "FPC sequence completed. Exiting tracking script to block Goodix overlap."
-    return 0
-    
-elif [ -d /sys/devices/platform/soc/soc:goodix_fingerprint/driver ]; then
-    log "Device tree specifies Goodix under-screen sensor. Testing Goodix first."
-    rmmod fpc1020_mmi.ko
-    sleep 0.2
-    
-    start_hal_service 1 # 1 corresponds to 'goodix' index in vendor_list
-    if [ $? != 255 ]; then
-        echo "goodix" > /mnt/vendor/persist/fps/vendor_id
-        return 0
+vendor_index=255
+# try to start the most recent success launched sensor.
+if [ $fps_vendor != $FPS_STATUS_NONE ]; then
+    find_vendor_index $fps_vendor
+    vendor_index=$?
+    if [ $vendor_index != 255 ]; then
+        log "start $fps_vendor hal service"
+        start_hal_service $vendor_index
+        if [ $? != 255 ]; then
+            return 0
+        fi
     fi
 fi
 
-# try all the fingerprint sensors as a fallback (ONLY RUNS IF THE IF/ELIF CHECKS FAIL)
+# try all the fingerprint sensors
 for temp_vendor_index in $(seq 0 $last_vendor_index)
 do
     if [ $temp_vendor_index == $vendor_index ]; then
@@ -176,5 +173,3 @@ done
 log "error, no fingerprint sensor found"
 setprop $prop_persist_fps $FPS_VENDOR_NONE
 echo $FPS_VENDOR_NONE > $persist_fps_id
-
-

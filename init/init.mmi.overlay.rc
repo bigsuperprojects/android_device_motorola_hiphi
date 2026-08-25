@@ -52,20 +52,6 @@ on early-boot
     # Add for egis fingerprint
     chown system system /dev/esfp0
     chmod 0664 /dev/esfp0
-on post-fs-data
-    # 1. Create the class grouping folder framework
-    mkdir /sys/class/fingerprint 0775 system system
-
-    # 2. Command init to execute a system-level symlink bridge.
-    # Because init executes this before userspace policies restrict the bus, 
-    # the kernel accepts the pointer mapping cleanly.
-    symlink /sys/devices/platform/soc/soc:fpc_fpc1020 /sys/class/fingerprint/fpc_fingerprint
-
-    # 3. Secure file access permissions for the HAL group
-    chown system system /sys/class/fingerprint/fpc_fingerprint/irq
-    chown system system /sys/class/fingerprint/fpc_fingerprint/hw_reset
-    chmod 0660 /sys/class/fingerprint/fpc_fingerprint/irq
-    chmod 0660 /sys/class/fingerprint/fpc_fingerprint/hw_reset
 
 on boot
     # allow TCMD to access cci for OIS test
