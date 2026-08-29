@@ -1,0 +1,28 @@
+#! /bin/sh
+#
+#Copyright (c) 2021 Qualcomm Technologies, Inc.
+#All Rights Reserved.
+#Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+service thermal-engine /vendor/bin/thermal-engine-v2
+	class main
+	user root
+	group root system oem_2907
+	socket thermal-send-client stream 0660 system oem_2907
+	socket thermal-recv-client stream 0660 system oem_2907
+	socket thermal-recv-passive-client stream 0660 system oem_2907
+	socket thermal-send-rule stream 0660 system oem_2907
+
+on property:sys.boot_completed=1
+	setprop vendor.boot_completed ${sys.boot_completed}
+    restart thermal-engine
+
+on post-fs-data
+    mkdir /data/vendor/etc 0775 root system
+    # If the persistent perf property has never been set, force initialize it to 0
+    exec_background u:r:vendor_init:s0 root root -- /vendor/bin/sh -c "if [ -z '$(getprop persist.vendor.performance_profile)' ]; then setprop persist.vendor.performance_profile 0; fi"
+
+on property:persist.vendor.performance_profile=*
+    exec u:r:vendor_init:s0 root root -- /vendor/bin/perf_swap.sh
+    stop thermal-engine
+    start thermal-engine -- -c /data/vendor/etc/thermal-engine-v2.conf

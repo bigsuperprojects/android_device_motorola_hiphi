@@ -77,6 +77,14 @@ PRODUCT_PACKAGES += \
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
 
+# Thermal
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine-game-perf.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-perf.conf \
+    $(LOCAL_PATH)/configs/thermal-engine-cool.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-cool.conf \
+    $(LOCAL_PATH)/configs/thermal-engine-stock.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf \
+    $(LOCAL_PATH)/configs/init_thermal-engine-v2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init_thermal-engine-v2.rc \
+    $(LOCAL_PATH)/configs/thermal_swap.sh:$(TARGET_COPY_OUT_VENDOR)/bin/thermal_swap.sh    
+
 # VINTF
 ODM_MANIFEST_SKUS +=  dn dnp n np
 ODM_MANIFEST_DN_FILES := \

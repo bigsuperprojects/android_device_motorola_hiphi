@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:key="add_quick_settings_tile"
+        android:title="@string/add_quick_settings_tile_title"
+        android:summary="@string/add_quick_settings_tile_summary" />
+
+    <ListPreference
+        android:key="performance_profile"
+        android:title="@string/performance_profile_title"
+        android:entries="@array/performance_profile_entries"
+        android:entryValues="@array/performance_profile_values"
+        android:persistent="false"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>
