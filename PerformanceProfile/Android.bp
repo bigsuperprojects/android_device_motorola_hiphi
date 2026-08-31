@@ -1,24 +1,11 @@
 android_app {
     name: "PerformanceProfile",
     manifest: "AndroidManifest.xml",
-
-    srcs: [
-        "src/**/*.java",
-    ],
-
-    resource_dirs: [
-        "res",
-    ],
-
-    static_libs: [
-        "androidx.preference_preference",
-        "androidx.fragment_fragment",
-    ],
-
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
     platform_apis: true,
-    certificate: "platform",
-    privileged: true,
-
+    certificate: "platform", // Keep it platform-signed for matching signature security checks
+    privileged: false,       // Moved out of priv-app space
     optimize: {
         enabled: false,
     },

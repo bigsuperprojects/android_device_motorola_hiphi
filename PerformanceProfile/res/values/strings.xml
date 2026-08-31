@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Performance profile</string>
-
-    <string name="add_quick_settings_tile_title">
-        Add Quick Settings tile
-    </string>
-
-    <string name="add_quick_settings_tile_summary">
-        Open Performance profile from Quick Settings
-    </string>
-
-    <string name="performance_profile_title">
-        Performance profile
-    </string>
+    <string name="app_name">Performance Profile</string>
+    <string name="performance_profile_title">Performance Profile</string>
+    <string name="add_quick_settings_tile_title">Quick Settings Tile</string>
+    <string name="add_quick_settings_tile_summary">Toggle tile registration controls</string>
 
     <string-array name="performance_profile_entries">
+        <item>Lightweight</item>
         <item>Stock</item>
-        <item>Cool / Lightweight</item>
-        <item>Gaming / Performance</item>
+        <item>Performance</item>
     </string-array>
 
     <string-array name="performance_profile_values">

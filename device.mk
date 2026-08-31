@@ -18,6 +18,10 @@ PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 BOARD_SHIPPING_API_LEVEL := 31
 PRODUCT_SHIPPING_API_LEVEL := $(BOARD_SHIPPING_API_LEVEL)
 
+# Customized thermal rc file, overrides the one from vendor/motorola/sm8475-common
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/init_thermal-engine-v2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init_thermal-engine-v2.rc
+
 # Inherit from motorola sm8475-common
 $(call inherit-product, device/motorola/sm8475-common/common.mk)
 
@@ -79,11 +83,12 @@ PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
 
 # Thermal
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermal-engine-game-perf.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-perf.conf \
+    $(LOCAL_PATH)/configs/thermal-engine-perf.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-perf.conf \
     $(LOCAL_PATH)/configs/thermal-engine-cool.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-cool.conf \
-    $(LOCAL_PATH)/configs/thermal-engine-stock.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf \
-    $(LOCAL_PATH)/configs/init_thermal-engine-v2.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init_thermal-engine-v2.rc \
-    $(LOCAL_PATH)/configs/thermal_swap.sh:$(TARGET_COPY_OUT_VENDOR)/bin/thermal_swap.sh    
+    $(LOCAL_PATH)/configs/thermal-engine-stock.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-stock.conf \
+    $(LOCAL_PATH)/configs/thermal-engine-stock.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf
+PRODUCT_PACKAGES += \
+    PerformanceProfile
 
 # VINTF
 ODM_MANIFEST_SKUS +=  dn dnp n np

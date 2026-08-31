@@ -4,7 +4,8 @@
 #All Rights Reserved.
 #Confidential and Proprietary - Qualcomm Technologies, Inc.
 
-service thermal-engine /vendor/bin/thermal-engine-v2
+service thermal-engine /vendor/bin/thermal-engine-v2 -d \
+    -c ${vendor.qcom.thermalcfg:-/vendor/etc/thermal-engine.conf}
 	class main
 	user root
 	group root system oem_2907
@@ -17,12 +18,37 @@ on property:sys.boot_completed=1
 	setprop vendor.boot_completed ${sys.boot_completed}
     restart thermal-engine
 
-on post-fs-data
-    mkdir /data/vendor/etc 0775 root system
-    # If the persistent perf property has never been set, force initialize it to 0
-    exec_background u:r:vendor_init:s0 root root -- /vendor/bin/sh -c "if [ -z '$(getprop persist.vendor.performance_profile)' ]; then setprop persist.vendor.performance_profile 0; fi"
 
-on property:persist.vendor.performance_profile=*
-    exec u:r:vendor_init:s0 root root -- /vendor/bin/perf_swap.sh
-    stop thermal-engine
-    start thermal-engine -- -c /data/vendor/etc/thermal-engine-v2.conf
+
+# Change the default profile fallback block
+on property:persist.vendor.performance_profile=
+    setprop persist.vendor.performance_profile 1
+
+# Profile 0: Battery Saver
+on property:persist.vendor.performance_profile=0
+    setprop vendor.qcom.thermalcfg /vendor/etc/thermal-engine-cool.conf
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq 1478400
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq 1651200
+    write /sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq 1612800
+    write /sys/class/kgsl/kgsl-3d0/max_pwrlevel 5
+
+# Profile 1: Normal
+on property:persist.vendor.performance_profile=1
+    setprop vendor.qcom.thermalcfg /vendor/etc/thermal-engine-stock.conf
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq 1785600
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq 2419200
+    write /sys/devices/system/cpu/cpufreq/policy7/scaling_max_freq 2841600
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "schedutil"
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor "schedutil"
+    write /sys/devices/system/cpu/cpufreq/policy7/scaling_governor "schedutil"
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
+
+# Profile 2: Performance
+on property:persist.vendor.performance_profile=2
+    setprop vendor.qcom.thermalcfg /vendor/etc/thermal-engine-perf.conf
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq 1267200
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq 1440000
+    write /sys/class/kgsl/kgsl-3d0/max_pwrlevel 0
+    
+on property:vendor.qcom.thermalcfg=*
+    restart thermal-engine

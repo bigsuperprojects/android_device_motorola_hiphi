@@ -1,0 +1,12 @@
+android_app {
+    name: "PerformanceProfileBackend",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    platform_apis: true,
+    certificate: "platform",
+    privileged: true, // Holds root execution parameters safely
+    optimize: {
+        enabled: false,
+    },
+}
