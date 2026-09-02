@@ -1,0 +1,21 @@
+android_app {
+    name: "PerformanceProfile",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    platform_apis: true,
+    certificate: "platform",
+    privileged: true,
+    required: ["org.lineageos.performanceprofile.xml"],
+
+    optimize: {
+        enabled: false,
+    },
+}
+
+prebuilt_etc {
+    name: "org.lineageos.performanceprofile.xml",
+    sub_dir: "permissions",
+    src: "org.lineageos.performanceprofile.xml",
+    filename_from_src: true,
+}

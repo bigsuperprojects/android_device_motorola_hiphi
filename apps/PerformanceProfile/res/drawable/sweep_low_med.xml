@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://android.com">
+    <aapt:attr name="android:drawable">
+        <vector android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+            <path android:fillColor="#000000" android:pathData="M0,0 h108 v108 h-108 Z" />
+            <path android:fillColor="#FFFFFF" android:pathData="M31.4,72.3C28.3,66.3 26.5,59.5 26.5,52.5C26.5,36.2 38.8,28.5 54.0,28.5C69.2,28.5 81.5,36.2 81.5,52.5C81.5,59.5 79.7,66.3 76.6,72.3L73.6,70.8C76.3,65.3 77.8,59.1 77.8,52.5C77.8,39.0 67.2,32.2 54.0,32.2C40.8,32.2 30.2,39.0 30.2,52.5C30.2,59.1 31.7,65.3 34.4,70.8L31.4,72.3Z"/>
+            <path android:fillColor="#FFFFFF" android:pathData="M40.3,47.3l-4.2,-1.6 M54,28.5v3.5 M67.7,47.3l4.2,-1.6"/>
+            <path android:name="needle" android:fillColor="#FF5722" android:pathData="M54.0,73.8 L36.0,63.2 C34.9,62.5 35.4,60.5 36.7,61.1 L54.0,67.8 Z" />
+        </vector>
+    </aapt:attr>
+    <target android:name="needle" android:animation="@animator/anim_low_to_med" />
+</animated-vector>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.lineageos.performanceprofile"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <protected-broadcast android:name="org.lineageos.performanceprofile.ACTION_SYNC_ICON" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Performance profile"
+        android:directBootAware="true">
+
+        <activity
+            android:name="org.lineageos.performanceprofile.PerformanceProfileActivity"
+            android:exported="true"
+            android:label="Performance profile"
+            android:theme="@android:style/Theme.NoDisplay" />
+
+        <activity
+            android:name="org.lineageos.performanceprofile.PerformanceProfileDialogActivity"
+            android:exported="true"
+            android:label="Throttling Setup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name=".LauncherLow"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_low"
+            android:label="Performance profile"
+            android:targetActivity="org.lineageos.performanceprofile.PerformanceProfileActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherMedium"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Performance profile"
+            android:targetActivity="org.lineageos.performanceprofile.PerformanceProfileActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherHigh"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_high"
+            android:label="Performance profile"
+            android:targetActivity="org.lineageos.performanceprofile.PerformanceProfileActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <service
+            android:name="org.lineageos.performanceprofile.PerformanceProfileTileService"
+            android:exported="true"
+            android:icon="@mipmap/performance_profile"
+            android:label="Performance"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="org.lineageos.performanceprofile.PerformanceProfileTileSyncReceiver"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="org.lineageos.performanceprofile.ACTION_SYNC_ICON" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>
