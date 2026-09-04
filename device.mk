@@ -87,8 +87,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-cool.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-cool.conf \
     $(LOCAL_PATH)/configs/thermal-engine-stock.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-stock.conf \
     $(LOCAL_PATH)/configs/thermal-engine-stock.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf
-PRODUCT_PACKAGES += \
-    PerformanceProfile
+PRODUCT_PACKAGES += AnimIcon
 
 # VINTF
 ODM_MANIFEST_SKUS +=  dn dnp n np

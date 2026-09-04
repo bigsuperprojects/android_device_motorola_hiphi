@@ -1,0 +1,19 @@
+android_app {
+    name: "AnimIcon",
+
+    manifest: "AndroidManifest.xml",
+    srcs: [
+        "src/**/*.java",
+    ],
+    resource_dirs: [
+        "res",
+    ],
+
+    certificate: "platform",
+    platform_apis: true,
+    system_ext_specific: true,
+
+    dex_preopt: {
+        enabled: true,
+    },
+}
