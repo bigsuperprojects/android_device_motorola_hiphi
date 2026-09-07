@@ -1,64 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bigsupersquid.animicon">
-
-    <application
-        android:theme="@style/Theme.AnimIcon.NoDisplay"
-        android:label="AnimIcon"
-        android:allowBackup="false"
-        android:supportsRtl="true">
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:noHistory="true"
-            android:excludeFromRecents="true" />
-
-        <activity-alias
-            android:name=".State0"
-            android:targetActivity=".MainActivity"
-            android:enabled="true"
-            android:exported="true"
-            android:icon="@drawable/ic_state_0"
-            android:label="AnimIcon">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity-alias>
-
-        <activity-alias
-            android:name=".State1"
-            android:targetActivity=".MainActivity"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@drawable/ic_state_1"
-            android:label="AnimIcon">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity-alias>
-
-        <activity-alias
-            android:name=".State2"
-            android:targetActivity=".MainActivity"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@drawable/ic_state_2"
-            android:label="AnimIcon">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity-alias>
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <application android:allowBackup="false" android:icon="@mipmap/ic_state_0" android:label="AnimIcon">
+        <activity android:name=".MainActivity" android:exported="false" android:label="AnimIcon" android:theme="@style/AnimIconTheme" />
+        <activity-alias android:name=".State0" android:enabled="true" android:exported="true" android:icon="@mipmap/ic_state_0" android:label="AnimIcon" android:targetActivity=".MainActivity"><intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter></activity-alias>
+        <activity-alias android:name=".State1" android:enabled="false" android:exported="true" android:icon="@mipmap/ic_state_1" android:label="AnimIcon" android:targetActivity=".MainActivity"><intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter></activity-alias>
+        <activity-alias android:name=".State2" android:enabled="false" android:exported="true" android:icon="@mipmap/ic_state_2" android:label="AnimIcon" android:targetActivity=".MainActivity"><intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter></activity-alias>
+<receiver
+    android:name=".BootReceiver"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+    </intent-filter>
+</receiver>
     </application>
-
+    <uses-permission
+    android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>

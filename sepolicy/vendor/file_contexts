@@ -1,0 +1,4 @@
+# Thermal
+/vendor/etc/thermal-engine-cool\.conf    u:object_r:vendor_thermal_profile_file:s0
+/vendor/etc/thermal-engine-stock\.conf   u:object_r:vendor_thermal_profile_file:s0
+/vendor/etc/thermal-engine-perf\.conf    u:object_r:vendor_thermal_profile_file:s0

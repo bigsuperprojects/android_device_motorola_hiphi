@@ -1,19 +1,22 @@
 android_app {
     name: "AnimIcon",
-
     manifest: "AndroidManifest.xml",
-    srcs: [
-        "src/**/*.java",
-    ],
-    resource_dirs: [
-        "res",
-    ],
-
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
     certificate: "platform",
     platform_apis: true,
     system_ext_specific: true,
-
-    dex_preopt: {
-        enabled: true,
-    },
+    dex_preopt: { enabled: true, },
+    privileged: true,
 }
+prebuilt_etc {
+    name: "privapp-permissions-AnimIcon",
+
+    src: "privapp-permissions-animicon.xml",
+
+    filename: "privapp-permissions-animicon.xml",
+    sub_dir: "permissions",
+
+    system_ext_specific: true,
+}
+

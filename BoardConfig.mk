@@ -35,7 +35,11 @@ BOOT_SECURITY_PATCH := 2025-02-01
 VENDOR_SECURITY_PATCH := $(BOOT_SECURITY_PATCH)
 
 # Sepolicy
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 PRODUCT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
+PRODUCT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += \
+    device/motorola/hiphi/sepolicy/system_ext/private
 
 # Verified Boot
 BOARD_AVB_ROLLBACK_INDEX := 25

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+    <privapp-permissions package="com.bigsupersquid.animicon">
+        <permission name="android.permission.INTERNAL_SYSTEM_WINDOW" />
+    </privapp-permissions>
+</permissions>

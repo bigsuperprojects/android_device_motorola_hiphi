@@ -1,0 +1,2 @@
+# Thermal
+type vendor_thermal_profile_file, file_type, vendor_file_type;

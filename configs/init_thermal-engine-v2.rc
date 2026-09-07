@@ -31,11 +31,11 @@ on property:sys.thermal.performance_cpu=0
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
 
 # Profile 0: Battery Saver
-on property:sys.thermal.performance_profile=0
+on property:sys.thermal.perf=0
     setprop vendor.qcom.thermalcfg /vendor/etc/thermal-engine-cool.conf
     setprop vendor.thermal.restart 1
 
-on property:sys.thermal.performance_profile=0 && property:sys.thermal.performance_cpu=1
+on property:sys.thermal.perf=0 && property:sys.thermal.performance_cpu=1
     write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "powersave"
     write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor "powersave"
     write /sys/devices/system/cpu/cpufreq/policy7/scaling_governor "powersave"
@@ -45,11 +45,11 @@ on property:sys.thermal.performance_profile=0 && property:sys.thermal.performanc
     write /sys/class/kgsl/kgsl-3d0/max_pwrlevel 5
 
 # Profile 1: Normal
-on property:sys.thermal.performance_profile=1
+on property:sys.thermal.perf=1
     setprop vendor.qcom.thermalcfg /vendor/etc/thermal-engine-stock.conf
     setprop vendor.thermal.restart 1
 
-on property:sys.thermal.performance_profile=1 && property:sys.thermal.performance_cpu=1
+on property:sys.thermal.perf=1 && property:sys.thermal.performance_cpu=1
     write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "schedutil"
     write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor "schedutil"
     write /sys/devices/system/cpu/cpufreq/policy7/scaling_governor "schedutil"
@@ -59,11 +59,11 @@ on property:sys.thermal.performance_profile=1 && property:sys.thermal.performanc
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
 
 # Profile 2: Performance
-on property:sys.thermal.performance_profile=2
+on property:sys.thermal.perf=2
     setprop vendor.qcom.thermalcfg /vendor/etc/thermal-engine-perf.conf
     setprop vendor.thermal.restart 1
 
-on property:sys.thermal.performance_profile=2 && property:sys.thermal.performance_cpu=1
+on property:sys.thermal.perf=2 && property:sys.thermal.performance_cpu=1
     write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "performance"
     write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor "performance"
     write /sys/devices/system/cpu/cpufreq/policy7/scaling_governor "performance"

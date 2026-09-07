@@ -1,0 +1,3 @@
+# Allow thermal-engine to read and write its designated current limit node
+allow vendor_thermal-engine sysfs_thermal:file rw_file_perms;
+allow vendor_thermal-engine vendor_thermal_profile_file:file r_file_perms;

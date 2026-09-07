@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" android:drawable="@drawable/transition_base"><target android:name="needle" android:animation="@animator/rotate_1_to_2" /></animated-vector>
