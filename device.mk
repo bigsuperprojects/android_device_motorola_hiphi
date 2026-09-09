@@ -90,5 +90,13 @@ ODM_MANIFEST_NP_FILES := \
     $(LOCAL_PATH)/vintf/manifest_np.xml \
     device/motorola/sm8475-common/vintf/manifest_ss.xml
 
+# automate packaging chain of images for custom kernel/modules on -eng build, lazy developer tactic
+ifeq ($(TARGET_BUILD_VARIANT),eng)
+.PHONY: boot_chain_zip
+boot_chain_zip: $(INSTALLED_BOOTIMAGE_TARGET) $(INSTALLED_DTBOIMAGE_TARGET) $(INSTALLED_VENDOR_BOOTIMAGE_TARGET) $(INSTALLED_VENDOR_DLKMIMAGE_TARGET)
+	@echo "-eng build detected. Packaging custom boot chain for hiphi..."
+	$(hide) bash device/motorola/hiphi/package_boot_chain.sh
+endif
+
 # Inherit from vendor blobs
 $(call inherit-product, vendor/motorola/hiphi/hiphi-vendor.mk)
