@@ -35,7 +35,10 @@ BiometricsFingerprint::BiometricsFingerprint() : mClientCallback(nullptr), mDevi
     mDevice = openHal();
     if (!mDevice) {
         ALOGE("Can't open HAL module");
-    }
+    } else {
+    ALOGI("Fingerprint HAL opened successfully. Signaling vendor script.");
+    property_set("vendor.hw.fingerprint.status", "ok");
+	}
 }
 
 BiometricsFingerprint::~BiometricsFingerprint() {
@@ -199,6 +202,10 @@ Return<RequestStatus> BiometricsFingerprint::setActiveGroup(uint32_t gid,
     if (access(mutableStorePath.c_str(), W_OK)) {
         return RequestStatus::SYS_EINVAL;
     }
+    if (!mDevice || !mDevice->set_active_group) {
+		ALOGE("set_active_group function pointer is NULL or unsupported by vendor blob!");
+		return RequestStatus::SYS_UNKNOWN;
+	}
     return ErrorFilter(mDevice->set_active_group(mDevice, gid, mutableStorePath.c_str()));
 }
 
